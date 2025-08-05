@@ -1,0 +1,106 @@
+using System;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    public float moveSpeed = 5f;
+
+    private Rigidbody2D rb;
+    public float jump;
+    public float Move;
+
+    public Vector2 boxSize;
+    public float castDistance;
+    public LayerMask groundLayer;
+    public LayerMask waterLayer;
+    bool grounded;
+    
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+/*
+    void Update()
+    {
+        Move = Input.GetAxisRaw("Horizontal");
+
+        rb.velocity = new Vector2(Move * moveSpeed, rb.velocity.y);
+
+        if (Input.GetKeyDown(KeyCode.W) && isGrounded())
+        {
+            rb.AddForce(new Vector2(rb.velocity.x, jump * 10));
+        }
+    }
+*/
+    float coyoteTime = 0.2f;
+    float coyoteCounter;
+
+    float jumpBufferTime = 0.2f;
+    float jumpBufferCounter;
+
+    void Update()
+    {
+        Move = Input.GetAxis("Horizontal");
+        rb.velocity = new Vector2(Move * moveSpeed, rb.velocity.y);
+
+        // Coyote time
+        if (isGrounded())
+            coyoteCounter = coyoteTime;
+        else
+            coyoteCounter -= Time.deltaTime;
+
+        // Jump buffer
+        if (Input.GetKeyDown(KeyCode.W))
+            jumpBufferCounter = jumpBufferTime;
+        else
+            jumpBufferCounter -= Time.deltaTime;
+
+        // Jump
+        if (jumpBufferCounter > 0 && coyoteCounter > 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jump); // jump bolje sa velocity umesto AddForce
+            jumpBufferCounter = 0f;
+        }
+    }
+
+
+
+    public bool isGrounded()
+    {
+        if (Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(transform.position-transform.up * castDistance, boxSize);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Health"))
+        {
+            if (!FindObjectOfType<HealthPlayer>().isFull())
+            {
+                FindObjectOfType<HealthPlayer>().AddHealth(1);
+                Destroy(other.gameObject);
+            }
+            
+        }
+        
+    }
+    
+    public void Knockback(Vector2 direction, float force)
+    {
+        rb.velocity = Vector2.zero; // resetujemo trenutnu brzinu
+        rb.AddForce(direction * force, ForceMode2D.Impulse);
+    }
+
+}
