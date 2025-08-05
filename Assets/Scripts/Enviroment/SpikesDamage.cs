@@ -10,8 +10,8 @@ public class SpikesDamage : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            HealthPlayer health = FindObjectOfType<HealthPlayer>();
-            health.takeDamage(1);
+            Health health = FindObjectOfType<Health>();
+            health.TakeDamage(1);
 
             Vector2 knockDir = (other.transform.position - transform.position).normalized;
             other.GetComponent<PlayerMovement>().Knockback(knockDir, knockbackForce);

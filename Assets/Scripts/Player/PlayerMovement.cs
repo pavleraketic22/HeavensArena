@@ -82,20 +82,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.DrawWireCube(transform.position-transform.up * castDistance, boxSize);
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Health"))
-        {
-            if (!FindObjectOfType<HealthPlayer>().isFull())
-            {
-                FindObjectOfType<HealthPlayer>().AddHealth(1);
-                Destroy(other.gameObject);
-            }
-            
-        }
-        
-    }
+    
     
     public void Knockback(Vector2 direction, float force)
     {
