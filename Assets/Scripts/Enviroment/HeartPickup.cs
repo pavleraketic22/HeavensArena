@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeartPickup : MonoBehaviour
+namespace Enviroment
 {
-    private int healAmount = 1;
-    
-    private void OnTriggerEnter2D(Collider2D other)
+    public class HeartPickup : MonoBehaviour
     {
-        Health playerHealth = other.GetComponent<Health>();
-        if (other.CompareTag("Player") && playerHealth.CurrentHealth != playerHealth.MaxHealth)
+        private int healAmount = 1;
+    
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            playerHealth.Heal(healAmount);
-            Destroy(gameObject);
+            Health playerHealth = other.GetComponent<Health>();
+            if (other.CompareTag("Player") && playerHealth.CurrentHealth != playerHealth.MaxHealth)
+            {
+                playerHealth.Heal(healAmount);
+                Destroy(gameObject);
+            }
         }
     }
 }
+

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1174111811282154649}
   - component: {fileID: 8559051823839827981}
   - component: {fileID: 3318859636708537496}
-  - component: {fileID: 3753531471556117983}
+  - component: {fileID: 9116407547422482569}
   m_Layer: 0
   m_Name: Spikes
   m_TagString: Spikes
@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8559051823839827981
 SpriteRenderer:
@@ -118,7 +118,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.43797827}
+  m_Offset: {x: 0, y: -0.9013071}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -129,9 +129,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 3.1240435}
+  m_Size: {x: 4, y: 2.1973858}
   m_EdgeRadius: 0
---- !u!114 &3753531471556117983
+--- !u!114 &9116407547422482569
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,4 +143,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0a28e3459e8744eb36d39efeff30ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 10
+  knockbackForce: 6

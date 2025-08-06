@@ -1,22 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LightAttack : IAttackStrategy
 {
-    public void Attack()
+    private GameObject lightningPrefab;
+    private UnityEngine.Camera cam;
+
+    public LightAttack(GameObject prefab , UnityEngine.Camera camera)
+    {
+        lightningPrefab = prefab;
+        cam = camera;
+    }
+
+    public void Attack(Vector3? targetPosition = null)
     {
         Debug.Log("Light Attack performed!");
-        // Dodaj animaciju, štetu itd.
+
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            GameObject.Instantiate(lightningPrefab, hit.point, Quaternion.identity);
+        }
     }
 }
 
-public class HeavyAttack : IAttackStrategy
+
+public class FireballAttack : IAttackStrategy
 {
-    public void Attack()
+    private GameObject fireball;
+    private float direction;
+    public float speed = 5f;
+
+    public FireballAttack(GameObject fireball, float direction)
     {
-        Debug.Log("Heavy Attack performed!");
-        // Dodaj animaciju, jaču štetu itd.
+        this.fireball = fireball;
+        this.direction = direction;
+    }
+
+    public void Attack(Vector3? targetPosition = null)
+    {
+        
+        // pomeranje metka desno ili levo, zavisno gde igrač gleda
+        Rigidbody2D rb = fireball.GetComponent<Rigidbody2D>();
+        rb.velocity = new Vector2(direction * speed, 0);
     }
 }
 
