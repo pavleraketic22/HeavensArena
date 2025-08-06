@@ -6,19 +6,20 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
 
     private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
     public float jump;
     public float Move;
 
     public Vector2 boxSize;
     public float castDistance;
     public LayerMask groundLayer;
-    public LayerMask waterLayer;
     bool grounded;
     
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 /*
     void Update()
@@ -43,6 +44,12 @@ public class PlayerMovement : MonoBehaviour
     {
         Move = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(Move * moveSpeed, rb.velocity.y);
+        
+        //Flip za promenu smera gledanja
+        if (Move > 0)
+            spriteRenderer.flipX = false;
+        else if (Move < 0)
+            spriteRenderer.flipX = true;
 
         // Coyote time
         if (isGrounded())

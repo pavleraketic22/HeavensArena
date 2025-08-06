@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Health
   - Spikes
+  - Fireball
+  - Lightning
+  - Coin
   layers:
   - Default
   - TransparentFX
