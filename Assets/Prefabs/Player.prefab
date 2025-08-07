@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8852455562220685491}
   - component: {fileID: 7737401780660981294}
   - component: {fileID: 7374875641185938143}
+  - component: {fileID: -7286402845126156317}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -136,9 +137,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  waterLayer:
-    serializedVersion: 2
-    m_Bits: 16
 --- !u!70 &8852455562220685491
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -208,3 +206,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 4
+--- !u!114 &-7286402845126156317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2377338250865321106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17041075909eb8e4cae87a8ac4837e56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

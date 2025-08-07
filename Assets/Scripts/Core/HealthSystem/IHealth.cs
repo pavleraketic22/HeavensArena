@@ -10,4 +10,5 @@ public interface IHealth
     int MaxHealth { get; }
     void RegisterObserver(IHealthObserver observer);
     void UnregisterObserver(IHealthObserver observer);
+    void AddGem();
 }

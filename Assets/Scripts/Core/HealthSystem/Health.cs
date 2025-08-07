@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class Health : MonoBehaviour, IHealth
 {
-    [SerializeField] private int maxHealth = 4;
+    [SerializeField] private int maxHealth = 10;
     private int currentHealth;
     private List<IHealthObserver> observers = new();
+    private int maxGems = 3;
+    private int currentGems;
 
     private void Awake()
     {
         currentHealth = maxHealth;
+        currentGems = 0;
     }
 
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
+    public int CurrentGems => currentGems;
 
     public void TakeDamage(int amount)
     {
@@ -24,6 +28,12 @@ public class Health : MonoBehaviour, IHealth
         {
             Die();
         }
+    }
+
+    public void AddGem()
+    {
+        currentGems += 1;
+        NotifyObservers();
     }
 
     public void Heal(int amount)
@@ -46,7 +56,11 @@ public class Health : MonoBehaviour, IHealth
     private void NotifyObservers()
     {
         foreach (var observer in observers)
+        {
             observer.OnHealthChanged(currentHealth, maxHealth);
+            observer.OnGemAdded();
+        }
+
     }
 
     private void Die()

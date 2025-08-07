@@ -20,7 +20,7 @@ public class EnemyBehaviour : MonoBehaviour
         HealthBarBehaviour.SetHealth(health, maxHealth);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Fireball"))
         {
@@ -30,7 +30,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    protected virtual void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -40,26 +40,41 @@ public class EnemyBehaviour : MonoBehaviour
             Vector2 knockDir = (other.transform.position - transform.position).normalized;
             other.gameObject.GetComponent<PlayerMovement>().Knockback(knockDir, knockbackForce);
         }
+        if (other.gameObject.CompareTag("Fireball"))
+        {
+            health -= 1;
+            HealthBarBehaviour.SetHealth(health, maxHealth);
+            Destroy(other.gameObject);
+        }
     }
 
     private void Update()
     {
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Die();
             
         }
-
-        distance = Vector2.Distance(transform.position, player.transform.position);
-        Vector2 direction = player.transform.position - transform.position;
-        direction.Normalize();
-
-        if (distance < 4)
+        else
         {
-            transform.position =
-                Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
+            distance = Vector2.Distance(transform.position, player.transform.position);
+            Vector2 direction = player.transform.position - transform.position;
+            direction.Normalize();
+
+            if (distance < 4)
+            {
+                transform.position =
+                    Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
+            }
         }
+
         
         
+        
+    }
+
+    protected virtual void Die()
+    {
+        Destroy(gameObject);
     }
 }

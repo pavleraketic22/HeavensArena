@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,13 @@ public class PlayerAttack : MonoBehaviour
     
     public Transform firePoint;
     public GameObject fireballPrefab;
-    public GameObject lightningPrefab;
+
+    private AbilityUser abilityUser;
+
+    private void Awake()
+    {
+        abilityUser = GetComponent<AbilityUser>();
+    }
 
     public void SetAttackStrategy(IAttackStrategy strategy)
     {
@@ -23,20 +30,27 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0)) // levi klik
+        if (Input.GetKeyDown(KeyCode.Q)) 
         {
             GameObject fireball = Instantiate(fireballPrefab, firePoint.position, Quaternion.identity);
             float direction = transform.localScale.x > 0 ? 1 : -1; 
             SetAttackStrategy(new FireballAttack(fireball, direction));
             PerformAttack();
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse1)) // desni klik
-        {
-            UnityEngine.Camera cam = UnityEngine.Camera.main;
-            SetAttackStrategy(new LightAttack(lightningPrefab, cam));
-            //PerformAttack(hit.point);
 
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            abilityUser.ActivateAbility(AbilityType.Life);
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            abilityUser.ActivateAbility(AbilityType.Life);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            abilityUser.ActivateAbility(AbilityType.Life);
+        }
+        
     }
 }
 

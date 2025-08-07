@@ -2,10 +2,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthUI : MonoBehaviour, IHealthObserver
+public class PlayerUI : MonoBehaviour, IHealthObserver
 {
     [SerializeField] private Image[] hearts;
     [SerializeField] private Health playerHealth;
+    [SerializeField] private Image[] gems;
+     
 
     private void Start()
     {
@@ -25,6 +27,17 @@ public class HealthUI : MonoBehaviour, IHealthObserver
                 hearts[i].color = Color.black;
             }
         }
+    }
+
+    public void OnGemAdded()
+    {
+        for (int i = 0; i < gems.Length; i++)
+        {
+            if (i < playerHealth.CurrentGems)
+            {
+                gems[i].color = Color.white;
+            }
+        } 
     }
 
     private void OnDestroy()

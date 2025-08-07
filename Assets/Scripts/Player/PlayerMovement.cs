@@ -42,6 +42,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (RuleManager.Instance.IsMasterOfRules())
+        {
+            // neki ui
+        }
+        
+        
         Move = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(Move * moveSpeed, rb.velocity.y);
         
@@ -58,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
             coyoteCounter -= Time.deltaTime;
 
         // Jump buffer
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
             jumpBufferCounter = jumpBufferTime;
         else
             jumpBufferCounter -= Time.deltaTime;
