@@ -1,25 +1,26 @@
 // HealthUI.cs
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class PlayerUI : MonoBehaviour, IHealthObserver
+public class PlayerUI : MonoBehaviour, IStatsObserver
 {
     [SerializeField] private Image[] hearts;
-    [SerializeField] private Health playerHealth;
+    [FormerlySerializedAs("playerHealth")] [SerializeField] private Stats playerStats;
     [SerializeField] private Image[] gems;
      
 
     private void Start()
     {
-        if (playerHealth != null)
-            playerHealth.RegisterObserver(this);
+        if (playerStats != null)
+            playerStats.RegisterObserver(this);
     }
 
     public void OnHealthChanged(int currentHealth, int maxHealth)
     {
         for (int i = 0; i < hearts.Length; i++)
         {
-            if (i < playerHealth.CurrentHealth)
+            if (i < playerStats.CurrentHealth)
             {
                 hearts[i].color = Color.red;
             }else
@@ -33,7 +34,7 @@ public class PlayerUI : MonoBehaviour, IHealthObserver
     {
         for (int i = 0; i < gems.Length; i++)
         {
-            if (i < playerHealth.CurrentGems)
+            if (i < playerStats.CurrentGems)
             {
                 gems[i].color = Color.white;
             }
@@ -42,7 +43,7 @@ public class PlayerUI : MonoBehaviour, IHealthObserver
 
     private void OnDestroy()
     {
-        if (playerHealth != null)
-            playerHealth.UnregisterObserver(this);
+        if (playerStats != null)
+            playerStats.UnregisterObserver(this);
     }
 }

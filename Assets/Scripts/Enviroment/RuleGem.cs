@@ -15,8 +15,8 @@ public class RuleGem : MonoBehaviour
         {
             AbilityUser abilityUser = other.GetComponent<AbilityUser>();
             RuleManager.Instance.UnlockRule(abilityType, abilityUser);
-            Health health = FindObjectOfType<Health>();
-            health.AddGem();
+            Stats stats = FindObjectOfType<Stats>();
+            stats.AddGem();
             Destroy(gameObject);
         }
     }

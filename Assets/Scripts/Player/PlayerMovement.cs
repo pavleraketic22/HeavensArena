@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public float customTimeScale = 1f;
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
@@ -49,7 +50,8 @@ public class PlayerMovement : MonoBehaviour
         
         
         Move = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(Move * moveSpeed, rb.velocity.y);
+        
+        rb.velocity = new Vector2(Move * moveSpeed * customTimeScale, rb.velocity.y);
         
         //Flip za promenu smera gledanja
         if (Move > 0)
@@ -61,13 +63,13 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded())
             coyoteCounter = coyoteTime;
         else
-            coyoteCounter -= Time.deltaTime;
+            coyoteCounter -= Time.deltaTime * customTimeScale;
 
         // Jump buffer
         if (Input.GetKeyDown(KeyCode.UpArrow))
             jumpBufferCounter = jumpBufferTime;
         else
-            jumpBufferCounter -= Time.deltaTime;
+            jumpBufferCounter -= Time.deltaTime * customTimeScale;
 
         // Jump
         if (jumpBufferCounter > 0 && coyoteCounter > 0)

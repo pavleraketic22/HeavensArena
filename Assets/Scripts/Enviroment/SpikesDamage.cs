@@ -12,8 +12,8 @@ namespace Enviroment
         {
             if (other.CompareTag("Player"))
             {
-                Health health = FindObjectOfType<Health>();
-                health.TakeDamage(1);
+                Stats stats = FindObjectOfType<Stats>();
+                stats.TakeDamage(1);
 
                 Vector2 knockDir = (other.transform.position - transform.position).normalized;
                 other.GetComponent<PlayerMovement>().Knockback(knockDir, knockbackForce);

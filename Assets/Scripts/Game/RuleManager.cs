@@ -27,17 +27,14 @@ public class RuleManager : MonoBehaviour
             case AbilityType.Time:
                 hasRuleOfTime = true;
                 abilityUser.UnlockAbility(AbilityType.Time);
-                Debug.Log("Unlocked: Rule of Time");
                 break;
             case AbilityType.Death:
                 hasRuleOfDeath = true;
                 abilityUser.UnlockAbility(AbilityType.Death);
-                Debug.Log("Unlocked: Rule of Death");
                 break;
             case AbilityType.Life:
                 hasRuleOfLife = true;
                 abilityUser.UnlockAbility(AbilityType.Life);
-                Debug.Log("Unlocked: Rule of Life");
                 break;
         }
 

@@ -170,7 +170,7 @@ MonoBehaviour:
   speed: 5
   knockbackForce: 6
   gemPrefab: {fileID: 2799867287404374608, guid: c7b3bee3d667c054a90fcb11de0fb7ed, type: 3}
-  abilityToGive: 0
+  abilityToGive: 2
 --- !u!114 &-2126372766198425753
 MonoBehaviour:
   m_ObjectHideFlags: 0

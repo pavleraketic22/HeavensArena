@@ -44,11 +44,11 @@ public class PlayerAttack : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            abilityUser.ActivateAbility(AbilityType.Life);
+            abilityUser.ActivateAbility(AbilityType.Time);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            abilityUser.ActivateAbility(AbilityType.Life);
+            abilityUser.ActivateAbility(AbilityType.Death);
         }
         
     }

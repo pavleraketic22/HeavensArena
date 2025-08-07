@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Update = UnityEngine.PlayerLoop.Update;
 
 public class BossBehaviour : EnemyBehaviour
 {
@@ -20,17 +21,26 @@ public class BossBehaviour : EnemyBehaviour
         
         if (abilityToGive == AbilityType.Life)
         {
-             ability = new LifeAbility();
+             ability = gameObject.AddComponent<LifeAbility>();
+             abilityUser.AddAbility(abilityToGive,ability);
+             abilityUser.UnlockAbility(AbilityType.Life);
+
         }
             
         else if (abilityToGive == AbilityType.Time)
         {
-             ability = new TimeAbility();
+             ability = gameObject.AddComponent<TimeAbility>();
+             abilityUser.AddAbility(abilityToGive,ability);
+             abilityUser.UnlockAbility(AbilityType.Time);
+
         }
            
         else if (abilityToGive == AbilityType.Death)
         {
-             ability = new DeathAbility();
+             ability = gameObject.AddComponent<DeathAbility>();
+             abilityUser.AddAbility(abilityToGive,ability);
+             abilityUser.UnlockAbility(AbilityType.Death);
+
         }
 
         if (ability != null)
@@ -48,5 +58,16 @@ public class BossBehaviour : EnemyBehaviour
     private void DropGem()
     {
         Instantiate(gemPrefab, transform.position, Quaternion.identity);
+    }
+
+    private void Update()
+    {
+        if (health <= maxHealth / 2f) //moram dodati jos uslova ovo je za sve, dakle treba mi i cooldown da ne bi bilo spamovanja
+        {
+            abilityUser.ActivateAbility(abilityToGive);
+        }
+    
+        
+        base.Update(); 
     }
 }

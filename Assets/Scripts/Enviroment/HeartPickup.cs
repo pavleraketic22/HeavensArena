@@ -11,10 +11,10 @@ namespace Enviroment
     
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Health playerHealth = other.GetComponent<Health>();
-            if (other.CompareTag("Player") && playerHealth.CurrentHealth != playerHealth.MaxHealth)
+            Stats playerStats = other.GetComponent<Stats>();
+            if (other.CompareTag("Player") && playerStats.CurrentHealth != playerStats.MaxHealth)
             {
-                playerHealth.Heal(healAmount);
+                playerStats.Heal(healAmount);
                 Destroy(gameObject);
             }
         }

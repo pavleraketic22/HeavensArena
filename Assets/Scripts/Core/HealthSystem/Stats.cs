@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour, IHealth
+public class Stats : MonoBehaviour, IStats
 {
     [SerializeField] private int maxHealth = 10;
-    private int currentHealth;
-    private List<IHealthObserver> observers = new();
+    [SerializeField] private int currentHealth;
+    private List<IStatsObserver> observers = new();
     private int maxGems = 3;
     private int currentGems;
 
@@ -42,13 +42,13 @@ public class Health : MonoBehaviour, IHealth
         NotifyObservers();
     }
 
-    public void RegisterObserver(IHealthObserver observer)
+    public void RegisterObserver(IStatsObserver observer)
     {
         if (!observers.Contains(observer))
             observers.Add(observer);
     }
 
-    public void UnregisterObserver(IHealthObserver observer)
+    public void UnregisterObserver(IStatsObserver observer)
     {
         observers.Remove(observer);
     }

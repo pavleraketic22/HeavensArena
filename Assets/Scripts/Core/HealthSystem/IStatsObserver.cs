@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // IHealthObserver.cs
-public interface IHealthObserver
+public interface IStatsObserver
 {
     void OnHealthChanged(int currentHealth, int maxHealth);
     void OnGemAdded();
