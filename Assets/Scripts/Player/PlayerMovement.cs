@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -15,26 +16,17 @@ public class PlayerMovement : MonoBehaviour
     public float castDistance;
     public LayerMask groundLayer;
     bool grounded;
-    
 
+    private Stats stats;
+
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        stats = GetComponent<Stats>();
     }
-/*
-    void Update()
-    {
-        Move = Input.GetAxisRaw("Horizontal");
 
-        rb.velocity = new Vector2(Move * moveSpeed, rb.velocity.y);
-
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded())
-        {
-            rb.AddForce(new Vector2(rb.velocity.x, jump * 10));
-        }
-    }
-*/
     float coyoteTime = 0.2f;
     float coyoteCounter;
 
@@ -43,6 +35,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (stats.CurrentMana < stats.MaxMana)
+        {
+            stats.RegenerateMana();
+        }
+        
         if (RuleManager.Instance.IsMasterOfRules())
         {
             // neki ui

@@ -4,21 +4,75 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour, IStats
 {
-    [SerializeField] private int maxHealth = 10;
+    [SerializeField] private int maxHealth = 6;
     [SerializeField] private int currentHealth;
-    private List<IStatsObserver> observers = new();
+    
+    [SerializeField] private int maxMana = 20;
+    [SerializeField] private int currentMana = 20;
+    [SerializeField] private float manaRegenRate = 2f;
+    private float manaRegenTimer = 0f;
+    
     private int maxGems = 3;
     private int currentGems;
+    
+    private List<IStatsObserver> observers = new();
+    
 
-    private void Awake()
+    private void Start()
     {
         currentHealth = maxHealth;
         currentGems = 0;
+        currentMana = maxMana;
+        NotifyObservers();
     }
 
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
     public int CurrentGems => currentGems;
+    public int CurrentMana => currentMana;
+    public int MaxMana => maxMana;
+
+    public bool UseMana(int amount)
+    {
+        if (currentMana >= amount)
+        {
+            currentMana -= amount;
+            NotifyObservers();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+    
+    public void RegenerateMana()
+    {
+        if (currentMana < maxMana)
+        {
+            manaRegenTimer += Time.deltaTime;
+
+            if (manaRegenTimer >= 5f)
+            {
+                currentMana += 2;
+                currentMana = Mathf.Min(currentMana, maxMana);
+                manaRegenTimer = 0f;
+                NotifyObservers();
+            }
+        }
+        else
+        {
+            // Resetuj timer ako je mana puna
+            manaRegenTimer = 0f;
+        }
+    }
+
+    public void AddMana(int amount)
+    {
+        currentMana += amount;
+        NotifyObservers();
+    }
 
     public void TakeDamage(int amount)
     {
@@ -59,6 +113,7 @@ public class Stats : MonoBehaviour, IStats
         {
             observer.OnHealthChanged(currentHealth, maxHealth);
             observer.OnGemAdded();
+            observer.OnManaChanged(currentMana,maxMana);
         }
 
     }

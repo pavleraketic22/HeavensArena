@@ -5,17 +5,27 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour, IStatsObserver
 {
-    [SerializeField] private Image[] hearts;
     [FormerlySerializedAs("playerHealth")] [SerializeField] private Stats playerStats;
     [SerializeField] private Image[] gems;
-     
+    public Slider healthSlider;
+    public Slider manaSlider;
+
+    public void OnHealthChanged(int currentHealth, int maxHealth)
+    {
+        healthSlider.value = (float)currentHealth / maxHealth;
+    }
+
+    public void OnManaChanged(int currentMana, int maxMana)
+    {
+        manaSlider.value = (float)currentMana / maxMana;
+    }
 
     private void Start()
     {
         if (playerStats != null)
             playerStats.RegisterObserver(this);
     }
-
+/*
     public void OnHealthChanged(int currentHealth, int maxHealth)
     {
         for (int i = 0; i < hearts.Length; i++)
@@ -29,7 +39,7 @@ public class PlayerUI : MonoBehaviour, IStatsObserver
             }
         }
     }
-
+*/
     public void OnGemAdded()
     {
         for (int i = 0; i < gems.Length; i++)
