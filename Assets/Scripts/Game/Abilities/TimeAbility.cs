@@ -4,6 +4,7 @@ public class TimeAbility : MonoBehaviour, IAbility
 {
     public float slowDuration = 5f;
     public float slowFactor = 0.5f;
+    private int manaCost = 10;
 
     public void Activate(GameObject user)
     {
@@ -11,6 +12,17 @@ public class TimeAbility : MonoBehaviour, IAbility
 
         if (user.CompareTag("Player"))
         {
+            Stats stats = user.GetComponent<Stats>();
+            if (stats == null)
+            {
+                Debug.Log("Stats not found on player.");
+                return;
+            }
+            if (!stats.UseMana(manaCost))
+            {
+                Debug.Log("Not enough mana for Life Ability.");
+                return;
+            }
             // 🎮 PLAYER koristi TimeAbility → uspori neprijatelje
             EnemyBehaviour[] enemies = FindObjectsOfType<EnemyBehaviour>();
 
