@@ -5,41 +5,123 @@ using UnityEngine.UI;
 
 public class CooldownUI : MonoBehaviour
 {
-
-    [Header("Death")]
-    public Image deathImage;
-    public float deathCooldown = 5f;
-    private bool isCooldown = false;
-    public KeyCode death;
+    private PlayerAttack cooldowns;
     
-    // Start is called before the first frame update
+    public Image deathImage;
+    public float deathCooldown;
+    private bool isDeathCooldown = false;
+
+    public Image lifeImage;
+    public float lifeCooldown;
+    private bool isLifeCooldown = false;
+
+    public Image timeImage;
+    public float timeCooldown;
+    private bool isTimeCooldown = false;
+
+    public Image fireballImage;
+    public float fireballCooldown;
+    private bool isFireballCooldown = false;
+
     void Start()
     {
-        deathImage.fillAmount = 0;
-    }
+        cooldowns = FindObjectOfType<PlayerAttack>();
 
-    // Update is called once per frame
+        deathCooldown = cooldowns.deathCooldown;
+        lifeCooldown = cooldowns.lifeCooldown;
+        timeCooldown = cooldowns.timeCooldown;
+        fireballCooldown = cooldowns.fireballCooldown;
+
+        deathImage.fillAmount = 0;
+        lifeImage.fillAmount = 0;
+        timeImage.fillAmount = 0;
+        fireballImage.fillAmount = 0;
+    }
+    
     void Update()
     {
         Death();
+        Life();
+        TimeAbility();
+        Fireball();
     }
 
     void Death()
     {
-        if (Input.GetKey(death) && isCooldown == false)
+        if (Input.GetKeyDown(KeyCode.R) && !isDeathCooldown && cooldowns.deathActivated)
         {
-            isCooldown = true;
+            isDeathCooldown = true;
             deathImage.fillAmount = 1;
         }
 
-        if (isCooldown)
+        if (isDeathCooldown)
         {
             deathImage.fillAmount -= 1 / deathCooldown * Time.deltaTime;
 
             if (deathImage.fillAmount <= 0)
             {
                 deathImage.fillAmount = 0;
-                isCooldown = false;
+                isDeathCooldown = false;
+            }
+        }
+    }
+
+    void Life()
+    {
+        if (Input.GetKeyDown(KeyCode.W) && !isLifeCooldown && cooldowns.lifeActivated)
+        {
+            isLifeCooldown = true;
+            lifeImage.fillAmount = 1;
+        }
+
+        if (isLifeCooldown)
+        {
+            lifeImage.fillAmount -= 1 / lifeCooldown * Time.deltaTime;
+
+            if (lifeImage.fillAmount <= 0)
+            {
+                lifeImage.fillAmount = 0;
+                isLifeCooldown = false;
+            }
+        }
+    }
+
+    void TimeAbility()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && !isTimeCooldown && cooldowns.timeActivated)
+        {
+            isTimeCooldown = true;
+            timeImage.fillAmount = 1;
+        }
+
+        if (isTimeCooldown)
+        {
+            timeImage.fillAmount -= 1 / timeCooldown * Time.deltaTime;
+
+            if (timeImage.fillAmount <= 0)
+            {
+                timeImage.fillAmount = 0;
+                isTimeCooldown = false;
+            }
+        }
+    }
+
+    void Fireball()
+    {
+        if (Input.GetKeyDown(KeyCode.Q) && !isFireballCooldown && cooldowns.fireballActivated)
+        {
+            isFireballCooldown = true;
+            fireballImage.fillAmount = 1;
+        }
+
+        if (isFireballCooldown)
+        {
+            fireballImage.fillAmount -= 1 / fireballCooldown * Time.deltaTime;
+
+            if (fireballImage.fillAmount <= 0)
+            {
+                fireballImage.fillAmount = 0;
+                isFireballCooldown = false;
             }
         }
     }

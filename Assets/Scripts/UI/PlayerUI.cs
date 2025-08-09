@@ -9,6 +9,8 @@ public class PlayerUI : MonoBehaviour, IStatsObserver
     [SerializeField] private Image[] gems;
     public Slider healthSlider;
     public Slider manaSlider;
+    public Image fireball1;
+    public Image fireball2;
 
     public void OnHealthChanged(int currentHealth, int maxHealth)
     {
@@ -25,21 +27,8 @@ public class PlayerUI : MonoBehaviour, IStatsObserver
         if (playerStats != null)
             playerStats.RegisterObserver(this);
     }
-/*
-    public void OnHealthChanged(int currentHealth, int maxHealth)
-    {
-        for (int i = 0; i < hearts.Length; i++)
-        {
-            if (i < playerStats.CurrentHealth)
-            {
-                hearts[i].color = Color.red;
-            }else
-            {
-                hearts[i].color = Color.black;
-            }
-        }
-    }
-*/
+  
+
     public void OnGemAdded()
     {
         for (int i = 0; i < gems.Length; i++)

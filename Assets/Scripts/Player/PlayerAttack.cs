@@ -7,12 +7,14 @@ public class PlayerAttack : MonoBehaviour
 {
     private IAttackStrategy currentAttack;
     
+    private SpriteRenderer spriteRenderer;
+    
     public Transform firePoint;
     public GameObject fireballPrefab;
 
     private AbilityUser abilityUser;
     
-    public float fireballCooldown = 0.5f;
+    public float fireballCooldown = 0.1f;
     private float fireballCooldownTimer = 0f;  
     private int manaCost = 1;
     
@@ -23,11 +25,19 @@ public class PlayerAttack : MonoBehaviour
     private float timeCooldownTimer = 0f; 
     
     public float deathCooldown = 20f;
-    private float deathCooldownTimer = 0f; 
+    private float deathCooldownTimer = 0f;
+
+
+    public bool fireballActivated = false;
+    public bool lifeActivated = false;
+    public bool timeActivated = false;
+    public bool deathActivated = false;
+    
 
     private void Awake()
     {
         abilityUser = GetComponent<AbilityUser>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void SetAttackStrategy(IAttackStrategy strategy)
@@ -70,26 +80,31 @@ public class PlayerAttack : MonoBehaviour
                 return;
             }
             GameObject fireball = Instantiate(fireballPrefab, firePoint.position, Quaternion.identity);
-            float direction = transform.localScale.x > 0 ? 1 : -1; 
+            float direction = spriteRenderer.flipX ? -1 : 1; 
             SetAttackStrategy(new FireballAttack(fireball, direction));
             PerformAttack();
             
-            fireballCooldownTimer = fireballCooldown; // reset cooldown
+            fireballActivated = true;
+
+            fireballCooldownTimer = fireballCooldown; 
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && lifeCooldownTimer <= 0f)
+        if (Input.GetKeyDown(KeyCode.W) && lifeCooldownTimer <= 0f && RuleManager.Instance.hasRuleOfLife)
         {
             abilityUser.ActivateAbility(AbilityType.Life);
+            lifeActivated = true;
             lifeCooldownTimer = lifeCooldown;
         }
-        if (Input.GetKeyDown(KeyCode.E) && timeCooldownTimer <= 0f)
+        if (Input.GetKeyDown(KeyCode.E) && timeCooldownTimer <= 0f && RuleManager.Instance.hasRuleOfTime)
         {
             abilityUser.ActivateAbility(AbilityType.Time);
+            timeActivated = true;
             timeCooldownTimer = timeCooldown;
         }
-        if (Input.GetKeyDown(KeyCode.R) && deathCooldownTimer <= 0f)
+        if (Input.GetKeyDown(KeyCode.R) && deathCooldownTimer <= 0f && RuleManager.Instance.hasRuleOfDeath)
         {
             abilityUser.ActivateAbility(AbilityType.Death);
+            deathActivated = true;
             deathCooldownTimer = deathCooldown;
         }
         

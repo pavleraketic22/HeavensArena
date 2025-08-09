@@ -10,7 +10,10 @@ public class BossBehaviour : EnemyBehaviour
     public GameObject gemPrefab;
     [FormerlySerializedAs("ruleToGive")] public AbilityType abilityToGive;
     private AbilityUser abilityUser;
-
+    
+    private float nextAbilityTime = 0f;
+    public float abilityCooldown = 5f;
+    
     void Start()
     {
         health = maxHealth;
@@ -62,9 +65,10 @@ public class BossBehaviour : EnemyBehaviour
 
     private void Update()
     {
-        if (health <= maxHealth / 2f) //moram dodati jos uslova ovo je za sve, dakle treba mi i cooldown da ne bi bilo spamovanja
+        if (health <= maxHealth / 2f && Time.time >= nextAbilityTime)
         {
             abilityUser.ActivateAbility(abilityToGive);
+            nextAbilityTime = Time.time + abilityCooldown; // postavljamo novi cooldown
         }
     
         
