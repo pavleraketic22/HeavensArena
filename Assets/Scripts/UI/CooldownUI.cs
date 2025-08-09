@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
 public class CooldownUI : MonoBehaviour
 {
     private PlayerAttack cooldowns;
@@ -22,6 +22,7 @@ public class CooldownUI : MonoBehaviour
     public Image fireballImage;
     public float fireballCooldown;
     private bool isFireballCooldown = false;
+    private float timer;
 
     void Start()
     {
@@ -31,6 +32,7 @@ public class CooldownUI : MonoBehaviour
         lifeCooldown = cooldowns.lifeCooldown;
         timeCooldown = cooldowns.timeCooldown;
         fireballCooldown = cooldowns.fireballCooldown;
+        timer = cooldowns.fireballCooldownTimer;
 
         deathImage.fillAmount = 0;
         lifeImage.fillAmount = 0;
@@ -116,13 +118,57 @@ public class CooldownUI : MonoBehaviour
 
         if (isFireballCooldown)
         {
-            fireballImage.fillAmount -= 1 / fireballCooldown * Time.deltaTime;
+            fireballImage.fillAmount -= 1f / fireballCooldown * Time.deltaTime ;
 
             if (fireballImage.fillAmount <= 0)
             {
                 fireballImage.fillAmount = 0;
                 isFireballCooldown = false;
             }
+        }
+    }
+}
+*/
+
+using UnityEngine;
+using UnityEngine.UI;
+
+public class CooldownUI : MonoBehaviour
+{
+    private PlayerAttack cooldowns;
+
+    public Image deathImage;
+    public Image lifeImage;
+    public Image timeImage;
+    public Image fireballImage;
+
+    void Start()
+    {
+        cooldowns = FindObjectOfType<PlayerAttack>();
+
+        deathImage.fillAmount = 0;
+        lifeImage.fillAmount = 0;
+        timeImage.fillAmount = 0;
+        fireballImage.fillAmount = 0;
+    }
+
+    void Update()
+    {
+        UpdateCooldownUI(ref cooldowns.deathCooldownTimer, cooldowns.deathCooldown, deathImage);
+        UpdateCooldownUI(ref cooldowns.lifeCooldownTimer, cooldowns.lifeCooldown, lifeImage);
+        UpdateCooldownUI(ref cooldowns.timeCooldownTimer, cooldowns.timeCooldown, timeImage);
+        UpdateCooldownUI(ref cooldowns.fireballCooldownTimer, cooldowns.fireballCooldown, fireballImage);
+    }
+
+    private void UpdateCooldownUI(ref float currentTimer, float maxCooldown, Image image)
+    {
+        if (currentTimer > 0)
+        {
+            image.fillAmount = currentTimer / maxCooldown;
+        }
+        else
+        {
+            image.fillAmount = 0;
         }
     }
 }

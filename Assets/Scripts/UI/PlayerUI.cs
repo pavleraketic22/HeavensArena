@@ -9,8 +9,7 @@ public class PlayerUI : MonoBehaviour, IStatsObserver
     [SerializeField] private Image[] gems;
     public Slider healthSlider;
     public Slider manaSlider;
-    public Image fireball1;
-    public Image fireball2;
+    
 
     public void OnHealthChanged(int currentHealth, int maxHealth)
     {

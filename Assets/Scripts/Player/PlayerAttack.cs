@@ -14,18 +14,18 @@ public class PlayerAttack : MonoBehaviour
 
     private AbilityUser abilityUser;
     
-    public float fireballCooldown = 0.1f;
-    private float fireballCooldownTimer = 0f;  
+    public float fireballCooldown = 1f;
+    public float fireballCooldownTimer = 0f;  
     private int manaCost = 1;
     
     public float lifeCooldown = 5f;
-    private float lifeCooldownTimer = 0f; 
+    public float lifeCooldownTimer = 0f; 
     
     public float timeCooldown = 10f;
-    private float timeCooldownTimer = 0f; 
+    public float timeCooldownTimer = 0f; 
     
     public float deathCooldown = 20f;
-    private float deathCooldownTimer = 0f;
+    public float deathCooldownTimer = 0f;
 
 
     public bool fireballActivated = false;
@@ -38,6 +38,7 @@ public class PlayerAttack : MonoBehaviour
     {
         abilityUser = GetComponent<AbilityUser>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        
     }
 
     public void SetAttackStrategy(IAttackStrategy strategy)
@@ -109,5 +110,7 @@ public class PlayerAttack : MonoBehaviour
         }
         
     }
+    
+    
 }
 
