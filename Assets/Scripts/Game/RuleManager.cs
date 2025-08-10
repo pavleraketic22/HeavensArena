@@ -37,9 +37,7 @@ public class RuleManager : MonoBehaviour
                 abilityUser.UnlockAbility(AbilityType.Life);
                 break;
         }
-
-        // Možeš emitovati event ovde za UI
-        // OnRuleUnlocked?.Invoke(rule);
+        
     }
 
     public bool IsMasterOfRules()

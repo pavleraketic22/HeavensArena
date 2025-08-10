@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (RuleManager.Instance.IsMasterOfRules())
         {
-            // neki ui
+            GameManager.Instance.Victory();
         }
         
         
@@ -64,7 +64,10 @@ public class PlayerMovement : MonoBehaviour
 
         // Jump buffer
         if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
             jumpBufferCounter = jumpBufferTime;
+            Music.Instance.PlaySFX("Jump",0.7f);
+        }
         else
             jumpBufferCounter -= Time.deltaTime * customTimeScale;
 

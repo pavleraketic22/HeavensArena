@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -6,9 +7,12 @@ public class GameManager : MonoBehaviour
 
     public bool isGameOver = false;
 
+    [Header("UI Panels")]
+    public GameObject gameOverPanel;
+    public GameObject victoryPanel;
+
     void Awake()
     {
-       
         if (Instance == null)
         {
             Instance = this;
@@ -23,7 +27,27 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
-        Debug.Log("Game Over!");
-        // logika za restart meni itd
+        Time.timeScale = 0f; // pauzira igru
+        gameOverPanel.SetActive(true);
+    }
+
+    public void Victory()
+    {
+        isGameOver = false;
+        Time.timeScale = 0f;
+        victoryPanel.SetActive(true);
+    }
+
+    // Dugmad
+    public void RestartLevel()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu"); // zameni imenom tvoje scene
     }
 }

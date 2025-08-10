@@ -70,28 +70,33 @@ public class Stats : MonoBehaviour, IStats
 
     public void AddMana(int amount)
     {
+        Music.Instance.PlaySFX("Heal",0.7f);
         currentMana += amount;
         NotifyObservers();
     }
 
     public void TakeDamage(int amount)
     {
+        Music.Instance.PlaySFX("Damage",0.7f);
         currentHealth = Mathf.Max(currentHealth - amount, 0);
         NotifyObservers();
         if (currentHealth == 0)
         {
             Die();
+            GameManager.Instance.GameOver();
         }
     }
 
     public void AddGem()
     {
+        Music.Instance.PlaySFX("Gems",0.7f);
         currentGems += 1;
         NotifyObservers();
     }
 
     public void Heal(int amount)
     {
+        Music.Instance.PlaySFX("Heal",0.7f);
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
         NotifyObservers();
     }

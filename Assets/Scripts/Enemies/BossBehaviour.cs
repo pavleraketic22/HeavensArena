@@ -68,7 +68,7 @@ public class BossBehaviour : EnemyBehaviour
         if (health <= maxHealth / 2f && Time.time >= nextAbilityTime)
         {
             abilityUser.ActivateAbility(abilityToGive);
-            nextAbilityTime = Time.time + abilityCooldown; // postavljamo novi cooldown
+            nextAbilityTime = Time.time + abilityCooldown; 
         }
     
         

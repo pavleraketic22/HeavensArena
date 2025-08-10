@@ -25,6 +25,7 @@ namespace UI
 
         public void Resume()
         {
+            Music.Instance.PlaySFX("Unpause",0.7f);
             pauseMenuUI.SetActive(false);
             Time.timeScale = 1f; // nastavlja igru
             GameIsPaused = false;
@@ -32,6 +33,7 @@ namespace UI
 
         void Pause()
         {
+            Music.Instance.PlaySFX("Pause",0.7f);
             pauseMenuUI.SetActive(true);
             Time.timeScale = 0f; // pauzira igru
             GameIsPaused = true;

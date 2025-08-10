@@ -38,6 +38,7 @@ public class EnemyBehaviour : MonoBehaviour
         if (other.gameObject.CompareTag("Fireball"))
         {
             health -= 1;
+            Music.Instance.PlaySFX("EnemyDamage",0.7f);
             HealthBarBehaviour.SetHealth(health, maxHealth);
             Destroy(other.gameObject);
         }
@@ -49,13 +50,14 @@ public class EnemyBehaviour : MonoBehaviour
         {
             Stats stats = FindObjectOfType<Stats>();
             stats.TakeDamage(1);
-            
+
             Vector2 knockDir = (other.transform.position - transform.position).normalized;
             other.gameObject.GetComponent<PlayerMovement>().Knockback(knockDir, knockbackForce);
         }
         if (other.gameObject.CompareTag("Fireball"))
         {
             health -= 1;
+            Music.Instance.PlaySFX("EnemyDamage",0.7f);
             HealthBarBehaviour.SetHealth(health, maxHealth);
             Destroy(other.gameObject);
         }
@@ -65,6 +67,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (health <= 0)
         {
+            Music.Instance.PlaySFX("EnemyDeath",0.5f);
             Die();
             return;
             

@@ -84,7 +84,7 @@ public class PlayerAttack : MonoBehaviour
             float direction = spriteRenderer.flipX ? -1 : 1; 
             SetAttackStrategy(new FireballAttack(fireball, direction));
             PerformAttack();
-            
+            Music.Instance.PlaySFX("Fire",0.7f);
             fireballActivated = true;
 
             fireballCooldownTimer = fireballCooldown; 
@@ -93,18 +93,21 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W) && lifeCooldownTimer <= 0f && RuleManager.Instance.hasRuleOfLife)
         {
             abilityUser.ActivateAbility(AbilityType.Life);
+            Music.Instance.PlaySFX("Heal",0.7f);
             lifeActivated = true;
             lifeCooldownTimer = lifeCooldown;
         }
         if (Input.GetKeyDown(KeyCode.E) && timeCooldownTimer <= 0f && RuleManager.Instance.hasRuleOfTime)
         {
             abilityUser.ActivateAbility(AbilityType.Time);
+            Music.Instance.PlaySFX("Time",0.7f);
             timeActivated = true;
             timeCooldownTimer = timeCooldown;
         }
         if (Input.GetKeyDown(KeyCode.R) && deathCooldownTimer <= 0f && RuleManager.Instance.hasRuleOfDeath)
         {
             abilityUser.ActivateAbility(AbilityType.Death);
+            Music.Instance.PlaySFX("Poison",0.7f);
             deathActivated = true;
             deathCooldownTimer = deathCooldown;
         }
