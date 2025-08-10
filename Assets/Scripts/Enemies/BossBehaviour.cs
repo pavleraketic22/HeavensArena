@@ -50,7 +50,7 @@ public class BossBehaviour : EnemyBehaviour
         {
             abilityUser.AddAbility(abilityToGive,ability);
         }
-            
+        base.Start();
     }
     protected override void Die()
     {

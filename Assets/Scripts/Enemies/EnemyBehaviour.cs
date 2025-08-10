@@ -10,13 +10,25 @@ public class EnemyBehaviour : MonoBehaviour
     public float maxHealth;
 
     public GameObject player;
-    public float speed;
+    public float moveSpeed = 3f;
+    public float jumpForce = 5f;
+    public float detectionRange = 4f;
+
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.2f;
+    public LayerMask groundLayer;
+    
+    private Rigidbody2D rb;
+    private bool isGrounded;
+    
     public float customTimeScale = 1f;
+    
     private float distance;
     public float knockbackForce = 2f;
 
-    private void Start()
+    protected virtual void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         health = maxHealth;
         HealthBarBehaviour.SetHealth(health, maxHealth);
     }
@@ -54,25 +66,33 @@ public class EnemyBehaviour : MonoBehaviour
         if (health <= 0)
         {
             Die();
+            return;
             
         }
-        else
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        float distance = Vector2.Distance(transform.position, player.transform.position);
+        Debug.Log("Distance to player: " + distance);
+        if (distance < detectionRange)
         {
-            distance = Vector2.Distance(transform.position, player.transform.position);
-            Vector2 direction = player.transform.position - transform.position;
-            direction.Normalize();
-
-            if (distance < 4)
-            {
-                float delta = Time.deltaTime * customTimeScale;
-                transform.position =
-                    Vector2.MoveTowards(this.transform.position, player.transform.position, speed * delta);
-            }
+            Debug.Log("Chasing player...");
+            ChasePlayer();
         }
+        
+    }
+    
+    private void ChasePlayer()
+    {
+        Vector2 direction = (player.transform.position - transform.position).normalized;
 
-        
-        
-        
+        // Trčanje
+        rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
+
+        // Ako igrač nije na istoj visini, pokušaj skok
+        if (isGrounded && Mathf.Abs(player.transform.position.y - transform.position.y) > 0.5f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
     }
 
     protected virtual void Die()

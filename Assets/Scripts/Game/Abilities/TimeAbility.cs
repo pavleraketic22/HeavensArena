@@ -6,6 +6,22 @@ public class TimeAbility : MonoBehaviour, IAbility
     public float slowFactor = 0.5f;
     private int manaCost = 10;
 
+    private GameObject timeEffectPrefab;
+    private GameObject activeEffect;
+
+    private void Awake()
+    {
+        // Učitaj prefab iz Resources foldera
+        timeEffectPrefab = Resources.Load<GameObject>(
+            "JMO Assets/Cartoon FX Remaster/CFXR Prefabs/Magic Misc/Time"
+        );
+
+        if (timeEffectPrefab == null)
+        {
+            Debug.LogError("❌ TimeAbility: Time prefab nije pronađen u Resources!");
+        }
+    }
+
     public void Activate(GameObject user)
     {
         Debug.Log($"{user.name} activated TIME ability!");
@@ -20,10 +36,23 @@ public class TimeAbility : MonoBehaviour, IAbility
             }
             if (!stats.UseMana(manaCost))
             {
-                Debug.Log("Not enough mana for Life Ability.");
+                Debug.Log("Not enough mana for Time Ability.");
                 return;
             }
-            // 🎮 PLAYER koristi TimeAbility → uspori neprijatelje
+
+            // Instanciraj vizuelni efekat na playeru (možeš i poziciju menjati)
+            if (timeEffectPrefab != null)
+            {
+                if (activeEffect != null)
+                {
+                    Destroy(activeEffect);
+                }
+                activeEffect = Instantiate(timeEffectPrefab, user.transform.position, Quaternion.identity);
+                activeEffect.transform.SetParent(user.transform);
+                Destroy(activeEffect, slowDuration + 0.5f); // uništi efekat nakon trajanja usporenja
+            }
+
+            // Usponji neprijatelje
             EnemyBehaviour[] enemies = FindObjectsOfType<EnemyBehaviour>();
 
             foreach (EnemyBehaviour enemy in enemies)
@@ -34,15 +63,27 @@ public class TimeAbility : MonoBehaviour, IAbility
 
             user.GetComponent<MonoBehaviour>().StartCoroutine(RestoreTimeAfterDelay(enemies));
         }
-        else 
+        else
         {
-            // 👹 ENEMY koristi TimeAbility → uspori igrača
+            // Enemy koristi time ability → uspori igrača
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
                 PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
                 if (playerMovement != null)
                     playerMovement.customTimeScale = slowFactor;
+
+                // Efekat na neprijatelju (koji koristi ability)
+                if (timeEffectPrefab != null)
+                {
+                    if (activeEffect != null)
+                    {
+                        Destroy(activeEffect);
+                    }
+                    activeEffect = Instantiate(timeEffectPrefab, user.transform.position, Quaternion.identity);
+                    activeEffect.transform.SetParent(user.transform);
+                    Destroy(activeEffect, slowDuration + 0.5f);
+                }
 
                 user.GetComponent<MonoBehaviour>().StartCoroutine(RestorePlayerAfterDelay(playerMovement));
             }

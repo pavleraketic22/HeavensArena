@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DeathAbility : MonoBehaviour, IAbility
 {
+    private GameObject deathEffectPrefab;
+    private GameObject activeEffect;
+
     public float damageRadius = 5f;
     public float damageInterval = 1f;
     public int damageAmount = 1;
@@ -12,8 +15,20 @@ public class DeathAbility : MonoBehaviour, IAbility
     private bool isActive = false;
     private Coroutine damageCoroutine;
     private Coroutine manaCoroutine;
-
     private GameObject currentUser;
+
+    private void Awake()
+    {
+        // Učitavamo prefab iz Resources foldera
+        deathEffectPrefab = Resources.Load<GameObject>(
+            "JMO Assets/Cartoon FX Remaster/CFXR Prefabs/Eerie/Souls"
+        );
+
+        if (deathEffectPrefab == null)
+        {
+            Debug.LogError("❌ DeathAbility: Prefab nije pronađen u Resources!");
+        }
+    }
 
     public void Activate(GameObject user)
     {
@@ -30,6 +45,14 @@ public class DeathAbility : MonoBehaviour, IAbility
                     return;
                 }
 
+                // Instanciraj efekat ako prefab postoji
+                if (deathEffectPrefab != null)
+                {
+                    activeEffect = Instantiate(deathEffectPrefab, user.transform.position, Quaternion.identity);
+                    activeEffect.transform.SetParent(user.transform);
+                    Debug.Log("✅ Death effect instantiated and parented to user.");
+                }
+
                 currentUser = user;
                 damageCoroutine = StartCoroutine(ApplyAoEDamage(user));
                 manaCoroutine = StartCoroutine(DrainManaPeriodically(stats));
@@ -44,6 +67,12 @@ public class DeathAbility : MonoBehaviour, IAbility
         {
             if (!isActive)
             {
+                if (deathEffectPrefab != null)
+                {
+                    activeEffect = Instantiate(deathEffectPrefab, user.transform.position, Quaternion.identity);
+                    activeEffect.transform.SetParent(user.transform);
+                    Debug.Log("✅ Death effect instantiated and parented to user.");
+                }
                 currentUser = user;
                 damageCoroutine = StartCoroutine(ApplyAoEDamage(user));
                 isActive = true;
@@ -65,6 +94,13 @@ public class DeathAbility : MonoBehaviour, IAbility
                 StopCoroutine(manaCoroutine);
                 manaCoroutine = null;
             }
+
+            if (activeEffect != null)
+            {
+                Destroy(activeEffect);
+                activeEffect = null;
+            }
+
             isActive = false;
             Debug.Log("Death ability stopped!");
         }
@@ -114,7 +150,6 @@ public class DeathAbility : MonoBehaviour, IAbility
         {
             if (stats.CurrentMana < manaCost)
             {
-                // Nema dovoljno mane, prekini ability
                 Debug.Log("Mana ran out, stopping Death Ability.");
                 Stop();
                 yield break;
