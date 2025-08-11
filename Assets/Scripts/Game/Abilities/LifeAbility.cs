@@ -8,17 +8,18 @@ public class LifeAbility : MonoBehaviour, IAbility
 
     private GameObject healEffectPrefab;
     private GameObject activeEffect;
+    
+    private int cnt = 0;
 
     private void Awake()
     {
-        // Učitaj prefab iz Resources
         healEffectPrefab = Resources.Load<GameObject>(
             "JMO Assets/Cartoon FX Remaster/CFXR Prefabs/Light/Heal"
         );
 
         if (healEffectPrefab == null)
         {
-            Debug.LogError("❌ LifeAbility: Heal prefab nije pronađen u Resources!");
+            Debug.LogError("LifeAbility: Heal prefab nije pronađen u Resources!");
         }
     }
 
@@ -55,22 +56,28 @@ public class LifeAbility : MonoBehaviour, IAbility
         {
             HealthBarBehaviour health = user.GetComponent<HealthBarBehaviour>();
             EnemyBehaviour enemy = user.GetComponent<EnemyBehaviour>();
-
-            enemy.health += 1;
-            Debug.Log($"Posle heala: {enemy.health}");
-
-            if (enemy.health > enemy.maxHealth)
-                enemy.health = enemy.maxHealth;
-
-            health.SetHealth(enemy.health, enemy.maxHealth);
-
-            // Efekat i na neprijatelja
-            if (healEffectPrefab != null)
+            
+            if (cnt < 3)
             {
-                activeEffect = Instantiate(healEffectPrefab, user.transform.position, Quaternion.identity);
-                activeEffect.transform.SetParent(user.transform);
-                Destroy(activeEffect, 2f);
+                enemy.health += healAmount;
+                Debug.Log($"Posle heala: {enemy.health}");
+
+                if (enemy.health > enemy.maxHealth)
+                    enemy.health = enemy.maxHealth;
+
+                health.SetHealth(enemy.health, enemy.maxHealth);
+
+                // Efekat i na neprijatelja
+                if (healEffectPrefab != null)
+                {
+                    activeEffect = Instantiate(healEffectPrefab, user.transform.position, Quaternion.identity);
+                    activeEffect.transform.SetParent(user.transform);
+                    Destroy(activeEffect, 2f);
+                }
+
+                cnt += 1;
             }
+            
         }
     }
 }

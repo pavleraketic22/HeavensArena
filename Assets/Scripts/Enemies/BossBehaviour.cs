@@ -13,6 +13,7 @@ public class BossBehaviour : EnemyBehaviour
     
     private float nextAbilityTime = 0f;
     public float abilityCooldown = 5f;
+    private int counter = 0;
     
     void Start()
     {
@@ -65,11 +66,26 @@ public class BossBehaviour : EnemyBehaviour
 
     private void Update()
     {
-        if (health <= maxHealth / 2f && Time.time >= nextAbilityTime)
+        if (abilityToGive == AbilityType.Life)
         {
-            abilityUser.ActivateAbility(abilityToGive);
-            nextAbilityTime = Time.time + abilityCooldown; 
+            if (health <= maxHealth / 2f && counter < 3 && Time.time >= nextAbilityTime)
+            {
+                counter++;
+                nextAbilityTime = Time.time + abilityCooldown;
+                abilityUser.ActivateAbility(abilityToGive);
+                
+            }
         }
+        else
+        {
+            if (health <= maxHealth / 2f && Time.time >= nextAbilityTime)
+            {
+                nextAbilityTime = Time.time + abilityCooldown;
+                abilityUser.ActivateAbility(abilityToGive);
+                 
+            }
+        }
+        
     
         
         base.Update(); 

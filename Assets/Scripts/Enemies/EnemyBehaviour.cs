@@ -31,6 +31,10 @@ public class EnemyBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         health = maxHealth;
         HealthBarBehaviour.SetHealth(health, maxHealth);
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
     }
 
     protected void OnTriggerEnter2D(Collider2D other)
@@ -67,7 +71,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (health <= 0)
         {
-            Music.Instance.PlaySFX("EnemyDeath",0.5f);
+            Music.Instance.PlaySFX("EnemyDeath",0.8f);
             Die();
             return;
             
