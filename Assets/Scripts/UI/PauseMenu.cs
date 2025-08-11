@@ -27,7 +27,7 @@ namespace UI
         {
             Music.Instance.PlaySFX("Unpause",0.7f);
             pauseMenuUI.SetActive(false);
-            Time.timeScale = 1f; // nastavlja igru
+            Time.timeScale = 1f; 
             GameIsPaused = false;
         }
 
@@ -35,14 +35,14 @@ namespace UI
         {
             Music.Instance.PlaySFX("Pause",0.7f);
             pauseMenuUI.SetActive(true);
-            Time.timeScale = 0f; // pauzira igru
+            Time.timeScale = 0f; 
             GameIsPaused = true;
         }
 
         public void LoadMainMenu()
         {
-            Time.timeScale = 1f; // reset vremena
-            SceneManager.LoadScene("MainMenu"); // stavi tačan naziv scene
+            Time.timeScale = 1f; 
+            SceneManager.LoadScene("MainMenu"); 
         }
 
         public void QuitGame()

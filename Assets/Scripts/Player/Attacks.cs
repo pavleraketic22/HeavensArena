@@ -22,7 +22,6 @@ public class FireballAttack :MonoBehaviour, IAttackStrategy
     public void Attack(Vector3? targetPosition = null)
     {
         
-        // pomeranje metka desno ili levo, zavisno gde igrač gleda
         Rigidbody2D rb = fireball.GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(direction * speed, 0);
         fireball.GetComponent<SpriteRenderer>().flipX = direction < 0;

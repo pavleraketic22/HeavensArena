@@ -50,19 +50,16 @@ public class PlayerMovement : MonoBehaviour
         
         rb.velocity = new Vector2(Move * moveSpeed * customTimeScale, rb.velocity.y);
         
-        //Flip za promenu smera gledanja
         if (Move > 0)
             spriteRenderer.flipX = false;
         else if (Move < 0)
             spriteRenderer.flipX = true;
-
-        // Coyote time
+        
         if (isGrounded())
             coyoteCounter = coyoteTime;
         else
             coyoteCounter -= Time.deltaTime * customTimeScale;
-
-        // Jump buffer
+        
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             jumpBufferCounter = jumpBufferTime;
@@ -70,11 +67,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else
             jumpBufferCounter -= Time.deltaTime * customTimeScale;
-
-        // Jump
+        
         if (jumpBufferCounter > 0 && coyoteCounter > 0)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jump); // jump bolje sa velocity umesto AddForce
+            rb.velocity = new Vector2(rb.velocity.x, jump); 
             jumpBufferCounter = 0f;
         }
     }
@@ -101,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
     
     public void Knockback(Vector2 direction, float force)
     {
-        rb.velocity = Vector2.zero; // resetujemo trenutnu brzinu
+        rb.velocity = Vector2.zero; 
         rb.AddForce(direction * force, ForceMode2D.Impulse);
     }
 

@@ -11,4 +11,7 @@ public interface IStats
     void RegisterObserver(IStatsObserver observer);
     void UnregisterObserver(IStatsObserver observer);
     void AddGem();
+
+    void AddCoins(int amount);
+    void UseCoins(int amount);
 }

@@ -54,7 +54,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        // Smanjuj cooldown timer
         if (fireballCooldownTimer > 0)
             fireballCooldownTimer -= Time.deltaTime;
         

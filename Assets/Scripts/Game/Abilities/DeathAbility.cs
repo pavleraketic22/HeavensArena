@@ -26,7 +26,7 @@ public class DeathAbility : MonoBehaviour, IAbility
 
         if (deathEffectPrefab == null)
         {
-            Debug.LogError("❌ DeathAbility: Prefab nije pronađen u Resources!");
+            Debug.LogError("DeathAbility: Prefab nije pronađen u Resources!");
         }
     }
 
@@ -71,7 +71,7 @@ public class DeathAbility : MonoBehaviour, IAbility
                 {
                     activeEffect = Instantiate(deathEffectPrefab, user.transform.position, Quaternion.identity);
                     activeEffect.transform.SetParent(user.transform);
-                    Debug.Log("✅ Death effect instantiated and parented to user.");
+                    Debug.Log("Death effect instantiated and parented to user.");
                 }
                 currentUser = user;
                 damageCoroutine = StartCoroutine(ApplyAoEDamage(user));

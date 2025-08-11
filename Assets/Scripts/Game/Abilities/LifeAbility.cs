@@ -33,8 +33,7 @@ public class LifeAbility : MonoBehaviour, IAbility
                 Debug.Log("Stats not found on player.");
                 return;
             }
-
-            // Provera mane
+            
             if (!stats.UseMana(manaCost))
             {
                 Debug.Log("Not enough mana for Life Ability.");
@@ -43,13 +42,12 @@ public class LifeAbility : MonoBehaviour, IAbility
 
             Debug.Log($"{user.name} activated LIFE ability!");
             stats.Heal(healAmount);
-
-            // Instanciraj heal efekat
+            
             if (healEffectPrefab != null)
             {
                 activeEffect = Instantiate(healEffectPrefab, user.transform.position, Quaternion.identity);
                 activeEffect.transform.SetParent(user.transform);
-                Destroy(activeEffect, 2f); // Efekat traje 2 sekunde (možeš promeniti)
+                Destroy(activeEffect, 2f); 
             }
         }
         else

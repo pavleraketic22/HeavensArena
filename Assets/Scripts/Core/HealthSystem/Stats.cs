@@ -16,6 +16,10 @@ public class Stats : MonoBehaviour, IStats
     private int currentGems;
     
     private List<IStatsObserver> observers = new();
+
+    private int coins = 0;
+    public int healthUpgradeCost = 5;
+    public int manaUpgradeCost = 5;
     
 
     private void Start()
@@ -32,6 +36,52 @@ public class Stats : MonoBehaviour, IStats
     public int CurrentMana => currentMana;
     public int MaxMana => maxMana;
 
+    public int Coins => coins;
+
+    
+    public bool BuyHealthUpgrade()
+    {
+        if (coins >= healthUpgradeCost)
+        {
+            coins -= healthUpgradeCost;
+            maxHealth += 2;               
+            currentHealth = maxHealth;    
+            NotifyObservers();
+            return true;
+        }
+        return false;
+    }
+
+    public bool BuyManaUpgrade()
+    {
+        if (coins >= manaUpgradeCost)
+        {
+            coins -= manaUpgradeCost;
+            maxMana += 5; 
+            currentMana = maxMana; 
+            NotifyObservers();
+            return true;
+        }
+
+        return false;   
+
+    }
+
+
+
+    public void AddCoins(int amount)
+    {
+        coins += amount;
+        NotifyObservers();
+    }
+    
+    public void UseCoins(int amount)
+    {
+        coins -= amount;
+        NotifyObservers();
+    }
+    
+    
     public bool UseMana(int amount)
     {
         if (currentMana >= amount)
@@ -63,7 +113,6 @@ public class Stats : MonoBehaviour, IStats
         }
         else
         {
-            // Resetuj timer ako je mana puna
             manaRegenTimer = 0f;
         }
     }
@@ -119,6 +168,7 @@ public class Stats : MonoBehaviour, IStats
             observer.OnHealthChanged(currentHealth, maxHealth);
             observer.OnGemAdded();
             observer.OnManaChanged(currentMana,maxMana);
+            observer.OnCoinsChanged(coins);
         }
 
     }

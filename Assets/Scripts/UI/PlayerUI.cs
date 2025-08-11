@@ -1,4 +1,6 @@
 // HealthUI.cs
+
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -9,6 +11,15 @@ public class PlayerUI : MonoBehaviour, IStatsObserver
     [SerializeField] private Image[] gems;
     public Slider healthSlider;
     public Slider manaSlider;
+
+    public TextMeshProUGUI coinsText;
+
+
+    public void OnCoinsChanged(int currentCoins)
+    {
+        if (coinsText != null)
+            coinsText.text = $"{currentCoins}";
+    }
     
 
     public void OnHealthChanged(int currentHealth, int maxHealth)

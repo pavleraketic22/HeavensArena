@@ -26,6 +26,8 @@ public class EnemyBehaviour : MonoBehaviour
     private float distance;
     public float knockbackForce = 2f;
 
+    private GameObject coinPrefab;
+
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -34,6 +36,13 @@ public class EnemyBehaviour : MonoBehaviour
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
+        }
+
+        if (coinPrefab == null)
+        {
+            coinPrefab = Resources.Load<GameObject>("Coin");
+            if (coinPrefab == null)
+                Debug.LogWarning("Coin prefab not found in Resources!");
         }
     }
 
@@ -92,10 +101,9 @@ public class EnemyBehaviour : MonoBehaviour
     {
         Vector2 direction = (player.transform.position - transform.position).normalized;
 
-        // Trčanje
+        
         rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
-
-        // Ako igrač nije na istoj visini, pokušaj skok
+        
         if (isGrounded && Mathf.Abs(player.transform.position.y - transform.position.y) > 0.5f)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -104,6 +112,15 @@ public class EnemyBehaviour : MonoBehaviour
 
     protected virtual void Die()
     {
+        DropCoin();
         Destroy(gameObject);
     }
+    private void DropCoin()
+    {
+        if (coinPrefab != null)
+        {
+            Instantiate(coinPrefab, transform.position, Quaternion.identity);
+        }
+    }
+    
 }

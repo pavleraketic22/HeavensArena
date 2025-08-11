@@ -30,7 +30,7 @@ public class Music : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        // Pretvaramo listu SFX u dictionary radi brzog pristupa
+        
         sfxDict = new Dictionary<string, AudioClip>();
         foreach (AudioClip clip in sfxClips)
         {
@@ -38,9 +38,9 @@ public class Music : MonoBehaviour
             {
                 sfxDict[clip.name] = clip;
 
-                // 🔹 Forsiraj dekompresiju unapred da ne kasni
+                
                 AudioClip dummy = clip;
-                float _ = dummy.length; // samo da ga Unity učita u RAM
+                float _ = dummy.length; 
             }
         }
     }
@@ -52,14 +52,12 @@ public class Music : MonoBehaviour
 
     void Update()
     {
-        // Ako muzika prestane, pusti sledeću
         if (!musicSource.isPlaying)
         {
             PlayNextTrack();
         }
     }
-
-    // 🎵 Pušta sledeću pesmu
+    
     void PlayNextTrack()
     {
         if (musicTracks.Count == 0) return;
@@ -76,8 +74,7 @@ public class Music : MonoBehaviour
         musicSource.clip = musicTracks[currentTrackIndex];
         musicSource.Play();
     }
-
-    // 🔊 Pusti SFX po imenu
+    
     public void PlaySFX(string name, float volume = 1f)
     {
         if (sfxDict.ContainsKey(name))

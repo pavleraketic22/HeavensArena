@@ -10,6 +10,7 @@ TagManager:
   - Fireball
   - Lightning
   - Coin
+  - Enemy
   layers:
   - Default
   - TransparentFX

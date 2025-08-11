@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
-        Time.timeScale = 0f; // pauzira igru
+        Time.timeScale = 0f; 
         gameOverPanel.SetActive(true);
     }
 
@@ -37,8 +37,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         victoryPanel.SetActive(true);
     }
-
-    // Dugmad
+    
     public void RestartLevel()
     {
         Time.timeScale = 1f;
@@ -48,6 +47,6 @@ public class GameManager : MonoBehaviour
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu"); // zameni imenom tvoje scene
+        SceneManager.LoadScene("MainMenu"); 
     }
 }

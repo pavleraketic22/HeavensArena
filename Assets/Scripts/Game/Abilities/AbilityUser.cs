@@ -26,8 +26,7 @@ public class AbilityUser : MonoBehaviour
         if (!unlockedAbilities.Contains(type))
         {
             unlockedAbilities.Add(type);
-
-            // Kreiranje i dodavanje konkretne instance ability-ja
+            
             if (!abilities.ContainsKey(type))
             {
                 IAbility abilityInstance = null;
@@ -55,17 +54,5 @@ public class AbilityUser : MonoBehaviour
             Debug.Log("Unlocked: Rule of " + type);
         }
     }
-
-    /*
-    public void UnlockAbility(AbilityType type)
-    {
-        unlockedAbilities.Add(type);
-        foreach (var abilityType in unlockedAbilities)
-        {
-            Debug.Log(abilityType);
-        }
-        Debug.Log("Unlocked: Rule of" + type.ToString());
-    }
-
-   */
+    
 }

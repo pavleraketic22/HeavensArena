@@ -11,7 +11,6 @@ public class TimeAbility : MonoBehaviour, IAbility
 
     private void Awake()
     {
-        // Učitaj prefab iz Resources foldera
         timeEffectPrefab = Resources.Load<GameObject>(
             "JMO Assets/Cartoon FX Remaster/CFXR Prefabs/Magic Misc/Time"
         );
@@ -39,8 +38,7 @@ public class TimeAbility : MonoBehaviour, IAbility
                 Debug.Log("Not enough mana for Time Ability.");
                 return;
             }
-
-            // Instanciraj vizuelni efekat na playeru (možeš i poziciju menjati)
+            
             if (timeEffectPrefab != null)
             {
                 if (activeEffect != null)
@@ -49,10 +47,9 @@ public class TimeAbility : MonoBehaviour, IAbility
                 }
                 activeEffect = Instantiate(timeEffectPrefab, user.transform.position, Quaternion.identity);
                 activeEffect.transform.SetParent(user.transform);
-                Destroy(activeEffect, slowDuration + 0.5f); // uništi efekat nakon trajanja usporenja
+                Destroy(activeEffect, slowDuration + 0.5f); 
             }
-
-            // Usponji neprijatelje
+            
             EnemyBehaviour[] enemies = FindObjectsOfType<EnemyBehaviour>();
 
             foreach (EnemyBehaviour enemy in enemies)
@@ -65,15 +62,13 @@ public class TimeAbility : MonoBehaviour, IAbility
         }
         else
         {
-            // Enemy koristi time ability → uspori igrača
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
                 PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
                 if (playerMovement != null)
                     playerMovement.customTimeScale = slowFactor;
-
-                // Efekat na neprijatelju (koji koristi ability)
+                
                 if (timeEffectPrefab != null)
                 {
                     if (activeEffect != null)
